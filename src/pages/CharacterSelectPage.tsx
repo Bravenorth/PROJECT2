@@ -49,10 +49,10 @@ export default function CharacterSelectPage() {
 
   const deleteCharacter = async (id: number) => {
     const character = characters.find((c) => c.id === id);
-    const confirm = window.confirm(
+    const userConfirmed = window.confirm(
       `🗑️ Supprimer le personnage "${character?.name}" ? Cette action est irréversible.`
     );
-    if (!confirm) return;
+    if (!userConfirmed) return;
 
     await characterService.delete(id);
     setCharacters((prev) => prev.filter((c) => c.id !== id));
