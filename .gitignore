@@ -38,4 +38,4 @@ coverage/
 
 # vite cache
 .cache/
-vite.config.ts.tsbuildinfo
+tsconfig.node.tsbuildinfo
