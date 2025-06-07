@@ -1,4 +1,10 @@
 // src/gameServer/characterModel.ts
+import {
+  CharacterEquipment,
+  CharacterInventory,
+  createEmptyEquipment,
+  createEmptyInventory
+} from './itemModel';
 
 export type CharacterStats = {
   core: {
@@ -32,6 +38,8 @@ export type Character = {
   id: number;
   name: string;
   stats: CharacterStats;
+  equipment: CharacterEquipment;
+  inventory: CharacterInventory;
 };
 
 export function createDefaultStats(): CharacterStats {
