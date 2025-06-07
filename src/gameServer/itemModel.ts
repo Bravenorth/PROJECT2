@@ -14,7 +14,7 @@ export const EQUIPMENT_SLOTS = [
   'amulet'
 ] as const;
 
-export type EquipmentSlot = typeof EQUIPMENT_SLOTS[number];
+export type EquipmentSlot = (typeof EQUIPMENT_SLOTS)[number];
 
 // 📦 Représentation d'un objet
 export type Item = {
@@ -32,7 +32,7 @@ export const MAX_INVENTORY_SIZE = 30;
 
 // 🔧 Création d’un équipement vide
 export function createEmptyEquipment(): CharacterEquipment {
-  return Object.fromEntries(EQUIPMENT_SLOTS.map(slot => [slot, null])) as CharacterEquipment;
+  return Object.fromEntries(EQUIPMENT_SLOTS.map((slot) => [slot, null])) as CharacterEquipment;
 }
 
 // 🔧 Création d’un inventaire vide

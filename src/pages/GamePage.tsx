@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import type { Character } from '../gameServer/characterModel';
+import { cloneCharacter } from '../gameServer/characterModel';
 import CharacterStatsUI from '../components/Character/CharacterStatsUI';
 import CharacterEquipmentUI from '../components/Character/CharacterEquipmentUI';
 import CombatZoneSelector from '../components/Combat/CombatZoneSelector';
@@ -27,11 +28,7 @@ export default function GamePage() {
 
   const equipFromInventory = (index: number) => {
     if (!charData) return;
-    const clone = {
-      ...charData,
-      inventory: [...charData.inventory],
-      equipment: { ...charData.equipment }
-    };
+    const clone = cloneCharacter(charData);
     if (equipItemFromInventory(clone, index)) {
       setCharData(clone);
     }
@@ -39,11 +36,7 @@ export default function GamePage() {
 
   const unequipToInventory = (slot: EquipmentSlot) => {
     if (!charData) return;
-    const clone = {
-      ...charData,
-      inventory: [...charData.inventory],
-      equipment: { ...charData.equipment }
-    };
+    const clone = cloneCharacter(charData);
     if (unequipItemToInventory(clone, slot)) {
       setCharData(clone);
     }
@@ -84,14 +77,8 @@ export default function GamePage() {
 
         {/* Bloc équipement */}
         <div style={{ flexShrink: 0 }}>
-          <CharacterEquipmentUI
-            equipment={charData.equipment}
-            onUnequip={unequipToInventory}
-          />
-          <CharacterInventoryUI
-            inventory={charData.inventory}
-            onEquip={equipFromInventory}
-          />
+          <CharacterEquipmentUI equipment={charData.equipment} onUnequip={unequipToInventory} />
+          <CharacterInventoryUI inventory={charData.inventory} onEquip={equipFromInventory} />
         </div>
 
         {/* Bloc zone de combat */}
