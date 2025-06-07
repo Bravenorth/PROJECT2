@@ -17,11 +17,21 @@ export const EQUIPMENT_SLOTS = [
 export type EquipmentSlot = (typeof EQUIPMENT_SLOTS)[number];
 
 // 📦 Représentation d'un objet
+import type { CharacterStats, Character } from './characterModel';
+
+export type ItemBonuses = Partial<{
+  core: Partial<CharacterStats['core']>;
+  stats: Partial<CharacterStats['stats']>;
+  offensive: Partial<CharacterStats['offensive']>;
+  defensive: Partial<CharacterStats['defensive']>;
+}>;
+
 export type Item = {
   id: number;
   name: string;
   slot: EquipmentSlot | null;
   emoji?: string; // optionnel pour affichage
+  bonuses?: ItemBonuses;
 };
 
 // 🧍‍♂️ Inventaire et équipement du personnage
@@ -43,9 +53,27 @@ export function createEmptyInventory(): CharacterInventory {
 // 🎒 Inventaire initial du joueur
 export function createDefaultInventory(): CharacterInventory {
   return [
-    { id: 1, name: 'Épée rouillée', slot: 'mainhand', emoji: '🗡️' },
-    { id: 2, name: 'Bouclier en bois', slot: 'offhand', emoji: '🛡️' },
-    { id: 3, name: 'Armure en tissu', slot: 'armor', emoji: '🧥' }
+    {
+      id: 1,
+      name: 'Épée rouillée',
+      slot: 'mainhand',
+      emoji: '🗡️',
+      bonuses: { stats: { strength: 2 } }
+    },
+    {
+      id: 2,
+      name: 'Bouclier en bois',
+      slot: 'offhand',
+      emoji: '🛡️',
+      bonuses: { defensive: { defense: 1 } }
+    },
+    {
+      id: 3,
+      name: 'Armure en tissu',
+      slot: 'armor',
+      emoji: '🧥',
+      bonuses: { defensive: { defense: 1 }, core: { hp: 5 } }
+    }
   ];
 }
 
@@ -61,8 +89,24 @@ export function addItemToInventory(
 }
 
 // 🪖 Équipe un objet depuis l’inventaire
+
+function applyItemBonuses(stats: CharacterStats, item: Item, factor: 1 | -1) {
+  if (!item.bonuses) return;
+  for (const sectionKey of Object.keys(item.bonuses) as (keyof ItemBonuses)[]) {
+    const bonusSection = item.bonuses[sectionKey];
+    const targetSection = stats[sectionKey as keyof CharacterStats] as Record<string, number>;
+    if (!bonusSection || !targetSection) continue;
+    for (const statKey of Object.keys(bonusSection) as string[]) {
+      const value = (bonusSection as any)[statKey];
+      if (typeof value === 'number') {
+        (targetSection as any)[statKey] += factor * value;
+      }
+    }
+  }
+}
+
 export function equipItemFromInventory(
-  char: { inventory: CharacterInventory; equipment: CharacterEquipment },
+  char: Character,
   index: number,
   max = MAX_INVENTORY_SIZE
 ): boolean {
@@ -72,17 +116,20 @@ export function equipItemFromInventory(
   const current = char.equipment[item.slot];
   if (current && char.inventory.length >= max) return false;
 
-  // Remet l'objet actuel dans l'inventaire si nécessaire
-  if (current) char.inventory.push(current);
+  if (current) {
+    char.inventory.push(current);
+    applyItemBonuses(char.stats, current, -1);
+  }
 
   char.inventory.splice(index, 1);
   char.equipment[item.slot] = item;
+  applyItemBonuses(char.stats, item, 1);
   return true;
 }
 
 // 🧤 Retire un équipement et le met dans l’inventaire
 export function unequipItemToInventory(
-  char: { inventory: CharacterInventory; equipment: CharacterEquipment },
+  char: Character,
   slot: EquipmentSlot,
   max = MAX_INVENTORY_SIZE
 ): boolean {
@@ -91,5 +138,6 @@ export function unequipItemToInventory(
 
   char.inventory.push(item);
   char.equipment[slot] = null;
+  applyItemBonuses(char.stats, item, -1);
   return true;
 }

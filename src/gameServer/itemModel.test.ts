@@ -40,4 +40,29 @@ describe('inventory and equipment system', () => {
     expect(char.inventory[0]).toEqual(sword);
     expect(char.equipment.mainhand).toBeNull();
   });
+
+  test('item stat bonuses are applied when equipped and removed when unequipped', () => {
+    const char: Character = {
+      id: 1,
+      name: 'Hero',
+      stats: createDefaultStats(),
+      equipment: createEmptyEquipment(),
+      inventory: createEmptyInventory()
+    };
+
+    const sword: Item = {
+      id: 102,
+      name: 'Sword of Power',
+      slot: 'mainhand',
+      bonuses: { stats: { strength: 3 } }
+    };
+
+    addItemToInventory(char.inventory, sword);
+    const base = char.stats.stats.strength;
+    equipItemFromInventory(char, 0);
+    expect(char.stats.stats.strength).toBe(base + 3);
+
+    unequipItemToInventory(char, 'mainhand');
+    expect(char.stats.stats.strength).toBe(base);
+  });
 });
