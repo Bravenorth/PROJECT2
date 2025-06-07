@@ -1,6 +1,5 @@
 import { createDefaultStats } from './characterModel';
 import {
-  EQUIPMENT_SLOTS,
   Item,
   createEmptyEquipment,
   createEmptyInventory,

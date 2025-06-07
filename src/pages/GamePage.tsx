@@ -6,6 +6,7 @@ import CharacterStatsUI from '../components/Character/CharacterStatsUI';
 import CharacterEquipmentUI from '../components/Character/CharacterEquipmentUI';
 import CombatZoneSelector from '../components/Combat/CombatZoneSelector';
 import CharacterInventoryUI from '../components/Character/CharacterInventoryUI';
+import { characterService } from '../services/characterService';
 import {
   equipItemFromInventory,
   unequipItemToInventory,
@@ -21,7 +22,7 @@ export default function GamePage() {
   if (!charData) {
     return (
       <p style={{ color: '#f66', padding: '1rem' }}>
-        ❌ Aucun personnage sélectionné. Retournez à l'accueil.
+        ❌ Aucun personnage sélectionné. Retournez à l&apos;accueil.
       </p>
     );
   }
@@ -31,6 +32,7 @@ export default function GamePage() {
     const clone = cloneCharacter(charData);
     if (equipItemFromInventory(clone, index)) {
       setCharData(clone);
+      characterService.update(clone);
     }
   };
 
@@ -39,6 +41,7 @@ export default function GamePage() {
     const clone = cloneCharacter(charData);
     if (unequipItemToInventory(clone, slot)) {
       setCharData(clone);
+      characterService.update(clone);
     }
   };
 

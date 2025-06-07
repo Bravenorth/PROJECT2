@@ -1,5 +1,8 @@
 // src/components/Character/CharacterInventoryUI.tsx
+import React from 'react';
 import { type CharacterInventory, MAX_INVENTORY_SIZE } from '../../gameServer/itemModel';
+import Tooltip from '../Tooltip';
+import ItemTooltipContent from '../ItemTooltipContent';
 
 type Props = {
   inventory: CharacterInventory;
@@ -28,7 +31,8 @@ export default function CharacterInventoryUI({ inventory, onEquip }: Props) {
       >
         {Array.from({ length: MAX_INVENTORY_SIZE }).map((_, index) => {
           const item = inventory[index];
-          return (
+          const content = item ? <ItemTooltipContent item={item} /> : null;
+          const box = (
             <div
               key={index}
               onClick={() => item && onEquip(index)}
@@ -45,11 +49,11 @@ export default function CharacterInventoryUI({ inventory, onEquip }: Props) {
                 color: '#888',
                 cursor: item ? 'pointer' : 'default'
               }}
-              title={item?.name}
             >
               {item ? item.emoji ?? '❓' : `Slot ${index + 1}`}
             </div>
           );
+          return item ? <Tooltip content={content}>{box}</Tooltip> : box;
         })}
       </div>
     </section>

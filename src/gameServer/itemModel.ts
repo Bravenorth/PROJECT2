@@ -97,8 +97,10 @@ function applyItemBonuses(stats: CharacterStats, item: Item, factor: 1 | -1) {
     const targetSection = stats[sectionKey as keyof CharacterStats] as Record<string, number>;
     if (!bonusSection || !targetSection) continue;
     for (const statKey of Object.keys(bonusSection) as string[]) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const value = (bonusSection as any)[statKey];
       if (typeof value === 'number') {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (targetSection as any)[statKey] += factor * value;
       }
     }

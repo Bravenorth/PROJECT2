@@ -1,5 +1,8 @@
 // src/components/Character/CharacterEquipmentUI.tsx
+import React from 'react';
 import { type CharacterEquipment, type EquipmentSlot, EQUIPMENT_SLOTS } from '../../gameServer/itemModel';
+import Tooltip from '../Tooltip';
+import ItemTooltipContent from '../ItemTooltipContent';
 
 const SLOT_LABELS: Record<EquipmentSlot, string> = {
   helmet: 'Casque',
@@ -54,7 +57,8 @@ export default function CharacterEquipmentUI({ equipment, onUnequip }: Props) {
       >
         {EQUIPMENT_SLOTS.map((slot) => {
           const item = equipment[slot];
-          return (
+          const content = item ? <ItemTooltipContent item={item} /> : null;
+          const box = (
             <div
               key={slot}
               onClick={() => item && onUnequip(slot)}
@@ -73,11 +77,11 @@ export default function CharacterEquipmentUI({ equipment, onUnequip }: Props) {
                 padding: '2px',
                 cursor: item ? 'pointer' : 'default'
               }}
-              title={item?.name ?? SLOT_LABELS[slot]}
             >
               {item ? item.emoji ?? SLOT_EMOJIS[slot] : SLOT_LABELS[slot]}
             </div>
           );
+          return item ? <Tooltip content={content}>{box}</Tooltip> : box;
         })}
       </div>
     </section>

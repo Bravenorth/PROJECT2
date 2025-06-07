@@ -1,12 +1,6 @@
 import React from 'react';
 import type { CharacterStats } from '../../gameServer/characterModel';
-
-// Format intelligent : fireRes → Fire Res
-function formatStatLabel(key: string): string {
-  return key
-    .replace(/([A-Z])/g, ' $1')
-    .replace(/^./, (c) => c.toUpperCase());
-}
+import { formatStatLabel } from '../../utils/formatStatLabel';
 
 type Props = {
   stats: CharacterStats;
