@@ -4,6 +4,7 @@ import {
   Item,
   createEmptyEquipment,
   createEmptyInventory,
+  createDefaultInventory,
   addItemToInventory,
   equipItemFromInventory,
   unequipItemToInventory
@@ -11,6 +12,11 @@ import {
 import type { Character } from './characterModel';
 
 describe('inventory and equipment system', () => {
+  test('createDefaultInventory returns starter items', () => {
+    const inv = createDefaultInventory();
+    expect(inv.length).toBeGreaterThan(0);
+    expect(inv[0].name).toBe('Épée rouillée');
+  });
   test('equipping moves item from inventory and unequipping returns it', () => {
     const char: Character = {
       id: 1,

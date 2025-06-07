@@ -5,7 +5,8 @@ import {
 } from '../gameServer/characterModel';
 import {
   createEmptyEquipment,
-  createEmptyInventory
+  createEmptyInventory,
+  createDefaultInventory
 } from '../gameServer/itemModel';
 
 const STORAGE_KEY = 'characters';
@@ -75,7 +76,7 @@ export const characterService = {
       name: trimmed,
       stats: createDefaultStats(),
       equipment: createEmptyEquipment(),
-      inventory: createEmptyInventory()
+      inventory: createDefaultInventory()
     };
 
     const current = await characterService.getAll();

@@ -38,6 +38,15 @@ export function createEmptyInventory(): CharacterInventory {
   return [];
 }
 
+// 💾 Liste d'objets de départ pour un nouveau personnage
+export function createDefaultInventory(): CharacterInventory {
+  return [
+    { id: 1, name: 'Épée rouillée', slot: 'mainhand' },
+    { id: 2, name: 'Bouclier en bois', slot: 'offhand' },
+    { id: 3, name: 'Armure en tissu', slot: 'armor' }
+  ];
+}
+
 export function addItemToInventory(inv: CharacterInventory, item: Item, max = MAX_INVENTORY_SIZE): boolean {
   if (inv.length >= max) return false;
   inv.push(item);
