@@ -1,9 +1,5 @@
-import React from 'react';
-import {
-  type CharacterEquipment,
-  type EquipmentSlot,
-  EQUIPMENT_SLOTS
-} from '../../gameServer/itemModel';
+// src/components/Character/CharacterEquipmentUI.tsx
+import { type CharacterEquipment, type EquipmentSlot, EQUIPMENT_SLOTS } from '../../gameServer/itemModel';
 
 const SLOT_LABELS: Record<EquipmentSlot, string> = {
   helmet: 'Casque',
@@ -18,10 +14,24 @@ const SLOT_LABELS: Record<EquipmentSlot, string> = {
   amulet: 'Amulette'
 };
 
+const SLOT_EMOJIS: Record<EquipmentSlot, string> = {
+  helmet: '🪖',
+  armor: '🛡️',
+  gloves: '🧤',
+  mainhand: '🗡️',
+  offhand: '🛡️',
+  belt: '🎒',
+  boots: '🥾',
+  ring1: '💍',
+  ring2: '💍',
+  amulet: '📿'
+};
+
 type Props = {
   equipment: CharacterEquipment;
   onUnequip: (slot: EquipmentSlot) => void;
 };
+
 export default function CharacterEquipmentUI({ equipment, onUnequip }: Props) {
   return (
     <section
@@ -57,7 +67,7 @@ export default function CharacterEquipmentUI({ equipment, onUnequip }: Props) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '0.6rem',
+                fontSize: '1.5rem',
                 textAlign: 'center',
                 color: '#888',
                 padding: '2px',
@@ -65,15 +75,7 @@ export default function CharacterEquipmentUI({ equipment, onUnequip }: Props) {
               }}
               title={item?.name ?? SLOT_LABELS[slot]}
             >
-              {item ? (
-                <img
-                  src="https://via.placeholder.com/48"
-                  alt={item.name}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-              ) : (
-                SLOT_LABELS[slot]
-              )}
+              {item ? item.emoji ?? SLOT_EMOJIS[slot] : SLOT_LABELS[slot]}
             </div>
           );
         })}

@@ -1,13 +1,11 @@
-import React from 'react';
-import {
-  type CharacterInventory,
-  MAX_INVENTORY_SIZE
-} from '../../gameServer/itemModel';
+// src/components/Character/CharacterInventoryUI.tsx
+import { type CharacterInventory, MAX_INVENTORY_SIZE } from '../../gameServer/itemModel';
 
 type Props = {
   inventory: CharacterInventory;
   onEquip: (index: number) => void;
 };
+
 export default function CharacterInventoryUI({ inventory, onEquip }: Props) {
   return (
     <section
@@ -43,21 +41,13 @@ export default function CharacterInventoryUI({ inventory, onEquip }: Props) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '0.65rem',
+                fontSize: '1.75rem',
                 color: '#888',
                 cursor: item ? 'pointer' : 'default'
               }}
               title={item?.name}
             >
-              {item ? (
-                <img
-                  src="https://via.placeholder.com/64"
-                  alt={item.name}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-              ) : (
-                `Slot ${index + 1}`
-              )}
+              {item ? item.emoji ?? '❓' : `Slot ${index + 1}`}
             </div>
           );
         })}

@@ -1,3 +1,4 @@
+// src/services/characterService.ts
 import {
   Character,
   CharacterStats,
