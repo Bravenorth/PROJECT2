@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import type { Character } from '../gameServer/characterModel';
-import { cloneCharacter } from '../gameServer/characterModel';
+import type { Character } from '../models/characterModel';
+import { cloneCharacter } from '../models/characterModel';
 import CharacterStatsUI from '../components/Character/CharacterStatsUI';
 import CharacterEquipmentUI from '../components/Character/CharacterEquipmentUI';
 import CombatZoneSelector from '../components/Combat/CombatZoneSelector';
@@ -11,7 +11,7 @@ import {
   equipItemFromInventory,
   unequipItemToInventory,
   type EquipmentSlot
-} from '../gameServer/itemModel';
+} from '../models/itemModel';
 
 export default function GamePage() {
   const location = useLocation();

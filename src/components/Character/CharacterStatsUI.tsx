@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Character } from '../models/characterModel';
+import type { Character } from '../../models/characterModel';
 import CharacterStatsDisplay from '../CharacterList/CharacterStatsDisplay';
 
 type Props = {

@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
 import CharacterSelectPage from './pages/CharacterSelectPage';
 import GamePage from './pages/GamePage';
-import './css/globals.css';
+import './styles/globals.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

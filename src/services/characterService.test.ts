@@ -1,5 +1,5 @@
 import { characterService } from './characterService';
-import { createDefaultStats } from '../gameServer/characterModel';
+import { createDefaultStats } from '../models/characterModel';
 
 describe('characterService', () => {
   beforeEach(() => {

@@ -3,12 +3,12 @@ import {
   Character,
   CharacterStats,
   createDefaultStats
-} from '../gameServer/characterModel';
+} from '../models/characterModel';
 import {
   createEmptyEquipment,
   createEmptyInventory,
   createDefaultInventory
-} from '../gameServer/itemModel';
+} from '../models/itemModel';
 
 const STORAGE_KEY = 'characters';
 const ACTIVE_KEY = 'activeCharacterId';

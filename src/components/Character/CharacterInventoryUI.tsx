@@ -1,6 +1,6 @@
 // src/components/Character/CharacterInventoryUI.tsx
 import React from 'react';
-import { type CharacterInventory, MAX_INVENTORY_SIZE } from '../models/itemModel';
+import { type CharacterInventory, MAX_INVENTORY_SIZE } from '../../models/itemModel';
 import Tooltip from '../Tooltip';
 import ItemTooltipContent from '../ItemTooltipContent';
 
