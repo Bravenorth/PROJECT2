@@ -71,6 +71,20 @@ export const characterService = {
     return simulateDelay(migratedList);
   },
 
+  /**
+   * Synchronous version of getAll used internally when we need immediate
+   * access to the stored characters without any artificial delay.
+   */
+  getAllSync(): Character[] {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    const list: Character[] = stored ? JSON.parse(stored) : [];
+
+    const migratedList = list.map(migrateCharacter);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(migratedList));
+
+    return migratedList;
+  },
+
   async create(name: string): Promise<Character> {
     const trimmed = name.trim();
     if (!trimmed) throw new Error('Nom invalide');
@@ -114,7 +128,10 @@ export const characterService = {
   },
 
   async update(character: Character): Promise<void> {
-    const all = await characterService.getAll();
+    // Retrieve the characters synchronously so that the update is persisted
+    // immediately. Using the async getAll() here could delay the write and
+    // allow page refreshes to discard the changes.
+    const all = characterService.getAllSync();
     const idx = all.findIndex((c) => c.id === character.id);
     if (idx !== -1) {
       all[idx] = character;
