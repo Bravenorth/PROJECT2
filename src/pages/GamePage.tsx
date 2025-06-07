@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import type { Character } from '../gameServer/characterModel';
 import { cloneCharacter } from '../gameServer/characterModel';
@@ -18,6 +18,20 @@ export default function GamePage() {
   const initialChar = location.state?.character as Character | undefined;
 
   const [charData, setCharData] = useState<Character | undefined>(initialChar);
+
+  // 🚚 Always fetch the latest character from the service so that refreshing the
+  // page keeps any equipment/inventory changes persisted in localStorage.
+  useEffect(() => {
+    async function loadCharacter() {
+      const id = await characterService.getActiveId();
+      if (id === null) return;
+      const all = await characterService.getAll();
+      const latest = all.find((c) => c.id === id);
+      if (latest) setCharData(latest);
+    }
+
+    loadCharacter();
+  }, []);
 
   if (!charData) {
     return (
