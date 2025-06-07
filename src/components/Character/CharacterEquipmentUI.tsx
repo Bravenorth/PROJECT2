@@ -60,7 +60,6 @@ export default function CharacterEquipmentUI({ equipment, onUnequip }: Props) {
           const content = item ? <ItemTooltipContent item={item} /> : null;
           const box = (
             <div
-              key={slot}
               onClick={() => item && onUnequip(slot)}
               style={{
                 width: 48,
@@ -81,7 +80,13 @@ export default function CharacterEquipmentUI({ equipment, onUnequip }: Props) {
               {item ? item.emoji ?? SLOT_EMOJIS[slot] : SLOT_LABELS[slot]}
             </div>
           );
-          return item ? <Tooltip content={content}>{box}</Tooltip> : box;
+          return item ? (
+            <Tooltip key={slot} content={content}>
+              {box}
+            </Tooltip>
+          ) : (
+            React.cloneElement(box, { key: slot })
+          );
         })}
       </div>
     </section>
