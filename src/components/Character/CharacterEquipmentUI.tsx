@@ -1,19 +1,28 @@
 import React from 'react';
+import {
+  type CharacterEquipment,
+  type EquipmentSlot,
+  EQUIPMENT_SLOTS
+} from '../../gameServer/itemModel';
 
-const EQUIPMENT_SLOTS = [
-  { key: 'helmet', label: 'Casque' },
-  { key: 'armor', label: 'Armure' },
-  { key: 'gloves', label: 'Gants' },
-  { key: 'mainhand', label: 'Main' },
-  { key: 'offhand', label: 'Second' },
-  { key: 'belt', label: 'Ceinture' },
-  { key: 'boots', label: 'Bottes' },
-  { key: 'ring1', label: 'Anneau 1' },
-  { key: 'ring2', label: 'Anneau 2' },
-  { key: 'amulet', label: 'Amulette' },
-];
+const SLOT_LABELS: Record<EquipmentSlot, string> = {
+  helmet: 'Casque',
+  armor: 'Armure',
+  gloves: 'Gants',
+  mainhand: 'Main',
+  offhand: 'Second',
+  belt: 'Ceinture',
+  boots: 'Bottes',
+  ring1: 'Anneau 1',
+  ring2: 'Anneau 2',
+  amulet: 'Amulette'
+};
 
-export default function CharacterEquipmentUI() {
+type Props = {
+  equipment: CharacterEquipment;
+  onUnequip: (slot: EquipmentSlot) => void;
+};
+export default function CharacterEquipmentUI({ equipment, onUnequip }: Props) {
   return (
     <section
       style={{
@@ -33,27 +42,41 @@ export default function CharacterEquipmentUI() {
           gap: '0.4rem',
         }}
       >
-        {EQUIPMENT_SLOTS.map(({ key, label }) => (
-          <div
-            key={key}
-            style={{
-              width: 48,
-              height: 48,
-              background: '#222',
-              border: '1px solid #555',
-              borderRadius: 4,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '0.6rem',
-              textAlign: 'center',
-              color: '#888',
-              padding: '2px',
-            }}
-          >
-            {label}
-          </div>
-        ))}
+        {EQUIPMENT_SLOTS.map((slot) => {
+          const item = equipment[slot];
+          return (
+            <div
+              key={slot}
+              onClick={() => item && onUnequip(slot)}
+              style={{
+                width: 48,
+                height: 48,
+                background: '#222',
+                border: '1px solid #555',
+                borderRadius: 4,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '0.6rem',
+                textAlign: 'center',
+                color: '#888',
+                padding: '2px',
+                cursor: item ? 'pointer' : 'default'
+              }}
+              title={item?.name ?? SLOT_LABELS[slot]}
+            >
+              {item ? (
+                <img
+                  src="https://via.placeholder.com/48"
+                  alt={item.name}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              ) : (
+                SLOT_LABELS[slot]
+              )}
+            </div>
+          );
+        })}
       </div>
     </section>
   );

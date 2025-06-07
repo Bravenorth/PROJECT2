@@ -1,8 +1,14 @@
 import React from 'react';
+import {
+  type CharacterInventory,
+  MAX_INVENTORY_SIZE
+} from '../../gameServer/itemModel';
 
-const INVENTORY_SIZE = 30;
-
-export default function CharacterInventoryUI() {
+type Props = {
+  inventory: CharacterInventory;
+  onEquip: (index: number) => void;
+};
+export default function CharacterInventoryUI({ inventory, onEquip }: Props) {
   return (
     <section
       style={{
@@ -22,25 +28,39 @@ export default function CharacterInventoryUI() {
           gap: '0.5rem',
         }}
       >
-        {Array.from({ length: INVENTORY_SIZE }).map((_, index) => (
-          <div
-            key={index}
-            style={{
-              width: 64,
-              height: 64,
-              background: '#222',
-              border: '1px solid #555',
-              borderRadius: 4,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '0.65rem',
-              color: '#888',
-            }}
-          >
-            Slot {index + 1}
-          </div>
-        ))}
+        {Array.from({ length: MAX_INVENTORY_SIZE }).map((_, index) => {
+          const item = inventory[index];
+          return (
+            <div
+              key={index}
+              onClick={() => item && onEquip(index)}
+              style={{
+                width: 64,
+                height: 64,
+                background: '#222',
+                border: '1px solid #555',
+                borderRadius: 4,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '0.65rem',
+                color: '#888',
+                cursor: item ? 'pointer' : 'default'
+              }}
+              title={item?.name}
+            >
+              {item ? (
+                <img
+                  src="https://via.placeholder.com/64"
+                  alt={item.name}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              ) : (
+                `Slot ${index + 1}`
+              )}
+            </div>
+          );
+        })}
       </div>
     </section>
   );
