@@ -19,9 +19,11 @@ function simulateDelay<T>(data: T, ms = 50): Promise<T> {
 
 // 🔁 Fonction utilitaire récursive pour migrer une branche de stats
 function migrateBranch<T extends object>(branch: T, fallback: T): T {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const migrated: any = {};
   for (const key in fallback) {
     const fallbackValue = fallback[key];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const legacyValue = (branch as any)?.[key];
 
     // Si c’est un objet (branche profonde), on migre récursivement
@@ -37,6 +39,7 @@ function migrateBranch<T extends object>(branch: T, fallback: T): T {
 // 🔁 Migration complète des stats avec fallback intelligent
 function migrateCharacter(char: Character): Character {
   const defaultStats = createDefaultStats();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const legacyStats = char.stats as any;
 
   const migratedStats: CharacterStats = migrateBranch(legacyStats, defaultStats);
@@ -107,6 +110,16 @@ export const characterService = {
       localStorage.removeItem(ACTIVE_KEY);
     }
 
+    return simulateDelay(undefined);
+  },
+
+  async update(character: Character): Promise<void> {
+    const all = await characterService.getAll();
+    const idx = all.findIndex((c) => c.id === character.id);
+    if (idx !== -1) {
+      all[idx] = character;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+    }
     return simulateDelay(undefined);
   },
 

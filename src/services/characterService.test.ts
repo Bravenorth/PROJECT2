@@ -16,6 +16,7 @@ describe('characterService', () => {
         offensive: { hitChance: 90, criticalChance: 10, criticalDamage: 120 }
         // defensive branch intentionally missing
       }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any;
     localStorage.setItem('characters', JSON.stringify([partialCharacter]));
 

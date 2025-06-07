@@ -1,5 +1,5 @@
 // src/components/Character/CharacterPanel.tsx
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { characterService } from '../../services/characterService';
 import {
   equipItemFromInventory,
@@ -25,6 +25,7 @@ export default function CharacterPanel() {
     const clone = cloneCharacter(character);
     if (equipItemFromInventory(clone, index)) {
       setCharacter(clone);
+      characterService.update(clone);
     }
   };
 
@@ -33,6 +34,7 @@ export default function CharacterPanel() {
     const clone = cloneCharacter(character);
     if (unequipItemToInventory(clone, slot)) {
       setCharacter(clone);
+      characterService.update(clone);
     }
   };
 

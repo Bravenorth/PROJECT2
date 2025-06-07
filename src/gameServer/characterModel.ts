@@ -1,10 +1,5 @@
 // src/gameServer/characterModel.ts
-import {
-  CharacterEquipment,
-  CharacterInventory,
-  createEmptyEquipment,
-  createEmptyInventory
-} from './itemModel';
+import { CharacterEquipment, CharacterInventory } from './itemModel';
 
 export type CharacterStats = {
   core: {
