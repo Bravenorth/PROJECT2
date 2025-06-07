@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { characterService } from '../services/characterService';
-import type { Character } from '../gameServer/characterModel';
+import type { Character } from '../models/characterModel';
 import CharacterList from '../components/CharacterList/CharacterList';
 import { useNavigate } from 'react-router-dom';
 

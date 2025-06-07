@@ -1,6 +1,6 @@
 // src/components/Character/CharacterEquipmentUI.tsx
 import React from 'react';
-import { type CharacterEquipment, type EquipmentSlot, EQUIPMENT_SLOTS } from '../models/itemModel';
+import { type CharacterEquipment, type EquipmentSlot, EQUIPMENT_SLOTS } from '../../models/itemModel';
 import Tooltip from '../Tooltip';
 import ItemTooltipContent from '../ItemTooltipContent';
 

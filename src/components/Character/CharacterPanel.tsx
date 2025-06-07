@@ -5,9 +5,9 @@ import {
   equipItemFromInventory,
   unequipItemToInventory,
   type EquipmentSlot
-} from '../models/itemModel';
-import type { Character } from '../models/characterModel';
-import { cloneCharacter } from '../models/characterModel';
+} from '../../models/itemModel';
+import type { Character } from '../../models/characterModel';
+import { cloneCharacter } from '../../models/characterModel';
 import CharacterInventoryUI from './CharacterInventoryUI';
 import CharacterEquipmentUI from './CharacterEquipmentUI';
 
