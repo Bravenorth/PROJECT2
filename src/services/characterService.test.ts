@@ -32,5 +32,6 @@ describe('characterService', () => {
 
     expect(found).toBeDefined();
     expect(found?.name).toBe('Hero');
+    expect(found?.inventory.length).toBeGreaterThan(0);
   });
 });
