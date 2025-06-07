@@ -1,4 +1,12 @@
-import { Character, CharacterStats, createDefaultStats } from '../gameServer/characterModel';
+import {
+  Character,
+  CharacterStats,
+  createDefaultStats
+} from '../gameServer/characterModel';
+import {
+  createEmptyEquipment,
+  createEmptyInventory
+} from '../gameServer/itemModel';
 
 const STORAGE_KEY = 'characters';
 const ACTIVE_KEY = 'activeCharacterId';
@@ -41,7 +49,9 @@ function migrateCharacter(char: Character): Character {
 
   return {
     ...char,
-    stats: migratedStats
+    stats: migratedStats,
+    equipment: char.equipment ?? createEmptyEquipment(),
+    inventory: char.inventory ?? createEmptyInventory()
   };
 }
 
@@ -63,7 +73,9 @@ export const characterService = {
     const newChar: Character = {
       id: Date.now(),
       name: trimmed,
-      stats: createDefaultStats()
+      stats: createDefaultStats(),
+      equipment: createEmptyEquipment(),
+      inventory: createEmptyInventory()
     };
 
     const current = await characterService.getAll();
