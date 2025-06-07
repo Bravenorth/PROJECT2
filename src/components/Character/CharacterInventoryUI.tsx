@@ -34,7 +34,6 @@ export default function CharacterInventoryUI({ inventory, onEquip }: Props) {
           const content = item ? <ItemTooltipContent item={item} /> : null;
           const box = (
             <div
-              key={index}
               onClick={() => item && onEquip(index)}
               style={{
                 width: 64,
@@ -53,7 +52,13 @@ export default function CharacterInventoryUI({ inventory, onEquip }: Props) {
               {item ? item.emoji ?? '❓' : `Slot ${index + 1}`}
             </div>
           );
-          return item ? <Tooltip content={content}>{box}</Tooltip> : box;
+          return item ? (
+            <Tooltip key={index} content={content}>
+              {box}
+            </Tooltip>
+          ) : (
+            React.cloneElement(box, { key: index })
+          );
         })}
       </div>
     </section>
